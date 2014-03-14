@@ -1,0 +1,191 @@
+
+<script type="text/javascript" src="<?php echo $this->getJsUrl('jquery.js') ?>"></script>
+<script>jQuery.noConflict();</script>
+<style>
+ .window3 {
+    overflow: hidden;
+    margin-top: 20px;
+}
+.wide4 .item{
+    height: 260px !important;
+}
+.slider-left {
+    background: url("../../media/lewa.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: none;
+    height: 45px;
+    left: 10px;
+    position: absolute;
+    top: 155px;
+    width: 25px;
+}
+.slider-right {
+    background: url("../../media/prawa.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: none;
+    height: 45px;
+    position: absolute;
+    right: 0;
+    top: 155px;
+    width: 25px;
+}
+</style>
+
+<div id="products-inner3" class="block" style="margin-top: 10px;min-height: 25px;position:relative;">
+    <div id="products-left3" class="slider-left" style="z-index: 100"></div>
+    <div id="products-right3" class="slider-right" style="z-index: 100"></div>
+    <div class="" style="float:left;width: 100%;">
+        <strong><span>Recently Viewed</span></strong>
+    </div>
+    <div class="slider-inner3">
+        <div id="relatedi" class="" style="width:190px;position:relative;">
+            <div class="window3" style="width:190px;">
+                <div class=" wide4" style="margin-top:40px;width:1075px"  >
+
+
+
+                    <?php foreach ($this->items as $_item): ?>
+                        <div class="item" style="width: 190px;float: left;text-align: center;height: 240px;">
+
+
+                            <a style="text-decoration: none;" href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" />
+                            </a> <div class="product-details">
+                                <p class="product-name" style="margin-bottom: 0;color:black;font-size: 16px; font-weight: 300;text-decoration: none;"><?php echo $this->htmlEscape($_item->getName()) ?></p>
+                                <p style=";color:black;font-size: 11px; font-weight: 900;text-decoration: none;"><?php echo $_item->getShortDescription(); ?></p>
+                                
+
+                            </div>
+
+
+
+                        </div>
+                    <?php endforeach ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    
+    ( function($) {
+        
+
+        var slider_touch_semaphor;
+        var slider_touch_xp;
+        var slider_touch_xk;
+        var slider_element3 = null;
+        var slider_window3;
+        var slider_wide3;
+        var slider_step3;
+        var slider_semaphor3;
+
+
+
+        function recalculate_slider3(){
+            slider_window3 = slider_element3.find(".window3");
+            slider_step3 = parseInt(slider_element3.find(".item:first-child").width());
+            slider_wide3 = slider_element3.find(".wide4");
+            slider_wide3.css('width', (slider_step3 * slider_element3.find(".item").length) + 'px')
+    
+            slider_element3.find("#products-left3").hide();
+    
+            slider_wide3.stop(true, true);
+            slider_wide3.css({'margin-left' : '0px'});
+
+            if(slider_wide3.width() > (slider_window3.width() + (0.2 * slider_step3)))
+                slider_element3.find("#products-right3").show();
+            else
+                slider_element3.find("#products-right3").hide();
+        }
+
+        function enable_slider3(element3){
+            slider_element3 = element3
+            recalculate_slider3();
+    
+            if(slider_wide3.width() > (slider_window3.width() + (0.2 * slider_step3))){
+        
+                slider_semaphor3 = true;
+        
+                function slider_left3(){
+                    if(slider_semaphor3){
+                        slider_semaphor3 = false;
+                        var m = parseInt(slider_wide3.css('margin-left')) + slider_step3;
+                        if(m > (0.2 * slider_step3))
+                            m = 0;
+                        if(parseInt(slider_wide3.css('margin-left')) != m){
+                            element3.find("#products-right3").show();
+                            slider_wide3.stop(true, true);
+                            slider_wide3.animate({'margin-left': m + 'px'}, 'fast', function(){
+                                slider_semaphor3 = true;
+                            })
+                            if(m > -slider_step3)
+                                element3.find("#products-left3").hide();
+                        }else
+                            slider_semaphor3 = true;
+                    }
+                }
+
+                function slider_right3(){
+                    if(slider_semaphor3){
+                        slider_semaphor3 = false;
+                        var m = parseInt(slider_wide3.css('margin-left')) - slider_step3;
+                        if(m < -(slider_wide3.width() - slider_window3.width()))
+                            m = -(slider_wide3.width() - slider_window3.width());
+                        if(parseInt(slider_wide3.css('margin-left')) != m){
+                            element3.find("#products-left3").show();
+                            slider_wide3.stop(true, true);
+                            slider_wide3.animate({'margin-left': m + 'px'}, 'fast', function(){
+                                slider_semaphor3 = true;
+                            })
+                    
+                            if(m < (-(slider_wide3.width() - slider_window3.width())) + slider_step3)
+                                element3.find("#products-right3").hide();
+                        }else
+                            slider_semaphor3 = true;
+                    }
+                }
+
+                element3.find("#products-left3").click(function(){
+                    slider_left3();
+                });
+
+                element3.find("#products-right3").click(function(){
+                    slider_right3();
+                });
+        
+                document.getElementsByClassName('slider-inner3')[0].ontouchstart = function(evt){
+                    var cords = evt.touches.item(0);
+                    slider_touch_xp = cords.pageX;
+                    slider_touch_xk = cords.pageX;
+            
+                };
+        
+                document.getElementsByClassName('slider-inner3')[0].ontouchmove = function(evt){
+                    var cords = evt.touches.item(0);
+                    slider_touch_xk = cords.pageX;
+                };
+        
+                document.getElementsByClassName('slider-inner3')[0].ontouchend = function(evt){
+                    dx = slider_touch_xk - slider_touch_xp;
+                    if(dx > 30)
+                        slider_left3();
+                    else if(dx < -30)
+                        slider_right3();
+                };
+        
+            }else
+                element3.find("#products-right3").hide();
+        }
+
+
+
+
+     
+        $(document).ready(function(){
+            enable_slider3($("#products-inner3"));
+
+        });
+     
+
+    } ) ( jQuery );
+</script>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    <helloworld_index>
+        <reference name="right">
+            <block type="core/template" name="slider_slider" template="pc/slider/slider.phtml" />
+        </reference>
+    </helloworld_index>
+
+</layout>

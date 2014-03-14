@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Pc_Slider>
+            <version>0.1.0</version>
+        </Pc_Slider>
+    </modules>
+    <global>
+        <models>
+            <slider>
+                <class>Pc_Sliderd_Model</class>
+            </slider>
+        </models>
+        <blocks>
+            <slider>
+                <class>Pc_Sliderd_Block</class>
+            </slider>
+        </blocks>
+        <helpers>
+            <slider>
+                <class>Pc_Sliderd_Helper</class>
+            </slider>
+        </helpers>
+    </global>
+    <frontend>
+        <routers>
+            <slider>
+                <use>standard</use>
+                <args>
+                    <module>Pc_Sliderd</module>
+                    <frontName>slider</frontName>
+                </args>
+            </slider>
+        </routers>
+        <layout>
+            <updates>
+                <slider>
+                    <file>pc_slider.xml</file>
+                </slider>
+            </updates>
+        </layout>
+    </frontend>
+</config>
